@@ -18,6 +18,7 @@ def get_mines():
     mine_list = [
         {"x": 2, "y":0},
         {"x": 3, "y":3},
+        {"x": 0, "y":4},
     ]
 
     return mine_list
@@ -36,6 +37,11 @@ def is_hit_mine():
             return True
     return False
 
+def reset():
+    hero.set(LedSpriteProperty.X, 0)
+    hero.set(LedSpriteProperty.Y, 0)
+    music.start_melody(music.built_in_melody(Melodies.NYAN))
+
 hero: game.LedSprite = None
 current_pos: List[number] = []
 hero = game.create_sprite(0, 0)
@@ -50,11 +56,13 @@ def on_forever():
         . # # # .
         """)
         music.start_melody(music.built_in_melody(Melodies.WAWAWAWAA))
-        basic.show_string("GAME OVER...")
+        basic.show_string("GAME OVER")
         music.start_melody(music.built_in_melody(Melodies.PUNCHLINE))
+        reset()
     elif is_goal():
         basic.show_icon(IconNames.HEART)
         music.start_melody(music.built_in_melody(Melodies.WEDDING))
         basic.show_string("GOAL!!")
+        reset()
 
 basic.forever(on_forever)

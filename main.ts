@@ -2,7 +2,6 @@ music.startMelody(music.builtInMelody(Melodies.Nyan))
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
     hero.turn(Direction.Right, 90)
 })
-//     music.start_melody(music.built_in_melody(Melodies.POWER_UP))
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
     hero.move(1)
 })
@@ -21,6 +20,10 @@ function get_mines() {
     , {
         "x" : 3,
         "y" : 3,
+    }
+    , {
+        "x" : 0,
+        "y" : 4,
     }
     ]
     return mine_list
@@ -47,6 +50,12 @@ function is_hit_mine(): boolean {
     return false
 }
 
+function reset() {
+    hero.set(LedSpriteProperty.X, 0)
+    hero.set(LedSpriteProperty.Y, 0)
+    music.startMelody(music.builtInMelody(Melodies.Nyan))
+}
+
 let hero : game.LedSprite = null
 let current_pos : number[] = []
 hero = game.createSprite(0, 0)
@@ -60,12 +69,14 @@ basic.forever(function on_forever() {
         . # # # .
         `)
         music.startMelody(music.builtInMelody(Melodies.Wawawawaa))
-        basic.showString("GAME OVER...")
+        basic.showString("GAME OVER")
         music.startMelody(music.builtInMelody(Melodies.Punchline))
+        reset()
     } else if (is_goal()) {
         basic.showIcon(IconNames.Heart)
         music.startMelody(music.builtInMelody(Melodies.Wedding))
         basic.showString("GOAL!!")
+        reset()
     }
     
 })
